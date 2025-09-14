@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Fake Profile Detector</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      margin: 40px auto;
+      background: rgba(255,255,255,0.18);
+      border-radius: 24px;
+      box-shadow: 0 16px 40px rgba(60,72,88,0.18), 0 1.5px 8px rgba(60,72,88,0.08);
+      padding: 36px 28px 28px 28px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      animation: floatCard 3s ease-in-out infinite;
+      border: 1.5px solid rgba(255,255,255,0.35);
+    }
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px) scale(1);}
+      50% { transform: translateY(-12px) scale(1.03);}
+    }
+    h1 {
+      text-align: center;
+      color: #2563eb;
+      margin-bottom: 28px;
+      font-size: 2.3em;
+      letter-spacing: 1px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px #a1c4fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    h1 .fa-magnifying-glass {
+      color: #3b82f6;
+      font-size: 1.1em;
+      animation: spinIcon 2s linear infinite;
+    }
+    @keyframes spinIcon {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+    form input, form button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #dbeafe;
+      font-size: 1em;
+      background: rgba(255,255,255,0.7);
+      transition: box-shadow 0.2s;
+      box-shadow: 0 1px 4px rgba(60,72,88,0.08);
+    }
+    form input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #3b82f6;
+    }
+    form button {
+      background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-top: 10px;
+      box-shadow: 0 2px 8px rgba(60,72,88,0.12);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    form button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 24px rgba(60,72,88,0.18);
+      background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+    }
+    .platform {
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #2563eb;
+      margin-bottom: 8px;
+      text-align: center;
+      margin-top: 10px;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .platform .fa-brands {
+      font-size: 1.2em;
+    }
+    .result-card {
+      background: rgba(255,255,255,0.85);
+      border-radius: 18px;
+      padding: 24px 18px;
+      margin-top: 28px;
+      box-shadow: 0 2px 12px rgba(60,72,88,0.10);
+      font-size: 1em;
+      color: #334155;
+      border: 1px solid #e0e7ff;
+      animation: fadeIn 0.8s;
+      transition: box-shadow 0.2s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .result-card ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+    .result-card li {
+      margin-bottom: 4px;
+      font-size: 1em;
+    }
+    .result-card hr {
+      border: none;
+      border-top: 1px solid #dbeafe;
+      margin: 14px 0;
+    }
+    #saveBtn {
+      display: none;
+      margin-top: 16px;
+      background: linear-gradient(90deg, #10b981 0%, #22d3ee 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 0;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(16,185,129,0.12);
+      transition: background 0.2s, transform 0.2s;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    #saveBtn:hover {
+      background: linear-gradient(90deg, #22d3ee 0%, #10b981 100%);
+      transform: scale(1.04);
+    }
+    #saveBtn .fa-floppy-disk {
+      margin-right: 8px;
+      animation: bounceIcon 1.2s infinite alternate;
+    }
+    @keyframes bounceIcon {
+      0% { transform: translateY(0);}
+      100% { transform: translateY(-4px);}
+    }
+    @media (max-width: 600px) {
+      .container { max-width: 98vw; padding: 18px;}
+      .result-card { padding: 12px 6px;}
+      h1 { font-size: 1.4em;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fa-solid fa-magnifying-glass"></i> Fake Profile Detector</h1>
+    <form id="profileForm">
+      <input name="username" placeholder="Username" required>
+      <input name="bio" placeholder="Bio">
+      <input name="followers" type="number" placeholder="Followers">
+      <input name="following" type="number" placeholder="Following">
+      <input name="posts" type="number" placeholder="Posts">
+      <input name="created_date" type="date" placeholder="Created Date">
+      <input name="avg_likes_per_post" type="number" placeholder="Avg Likes">
+      <input name="avg_comments_per_post" type="number" placeholder="Avg Comments">
+      <input name="profile_picture" placeholder="Profile Picture URL">
+      <button type="submit"><i class="fa-solid fa-robot"></i> Analyze</button>
+    </form>
+    <div id="platform" class="platform"></div>
+    <div id="result" class="result-card"></div>
+    <button id="saveBtn"><i class="fa-solid fa-floppy-disk"></i> Save Result</button>
+  </div>
+  <script>
+    function detectPlatform(url) {
+      if (!url) return {name: "Unknown", icon: "fa-question"};
+      if (url.includes("twitter.com") || url.includes("twimg.com")) return {name: "Twitter", icon: "fa-twitter"};
+      if (url.includes("facebook.com")) return {name: "Facebook", icon: "fa-facebook"};
+      if (url.includes("instagram.com")) return {name: "Instagram", icon: "fa-instagram"};
+      if (url.includes("linkedin.com")) return {name: "LinkedIn", icon: "fa-linkedin"};
+      if (url.includes("tiktok.com")) return {name: "TikTok", icon: "fa-tiktok"};
+      return {name: "Unknown", icon: "fa-question"};
+    }
+
+    document.getElementById('profileForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      // Detect platform
+      const platformObj = detectPlatform(data.profile_picture);
+      document.getElementById('platform').innerHTML = `<i class="fa-brands ${platformObj.icon}"></i> Detected Platform: ${platformObj.name}`;
+
+      const res = await fetch('http://127.0.0.1:5000/api/analyze', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+      let resultText = await res.text();
+      let resultObj;
+      try {
+        resultObj = JSON.parse(resultText);
+      } catch {
+        resultObj = {error: resultText};
+      }
+      // Format result nicely
+      let html = "";
+      if (resultObj.error) {
+        html = `<b style="color:red;">Error:</b> ${resultObj.error}`;
+        document.getElementById('saveBtn').style.display = "none";
+      } else {
+        html += `<b>Analysis ID:</b> ${resultObj.analysis_id}<br>`;
+        html += `<b>Fake Probability:</b> ${Math.round(resultObj.detection_result.fake_probability*100)}%<br>`;
+        html += `<b>Confidence:</b> ${resultObj.detection_result.confidence}<br>`;
+        html += `<b>Risk Level:</b> ${resultObj.risk_level || 'undefined'}<br>`;
+        html += `<b>Is Fake:</b> <span style="color:${resultObj.is_fake?'red':'green'};font-weight:bold;">${resultObj.is_fake?'Yes':'No'}</span><br>`;
+        html += `<hr><b>Features Analyzed:</b><ul>`;
+        for (const [key, value] of Object.entries(resultObj.detection_result.features_analyzed)) {
+          html += `<li><b>${key}:</b> ${value}</li>`;
+        }
+        html += `</ul>`;
+        document.getElementById('saveBtn').style.display = "inline-block";
+        window.latestResult = resultObj;
+      }
+      document.getElementById('result').innerHTML = html;
+    };
+
+    document.getElementById('saveBtn').onclick = function() {
+      if (!window.latestResult) return;
+      const blob = new Blob([JSON.stringify(window.latestResult, null, 2)], {type: "application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "profile_analysis.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+  </script>
+</body>
+</html>
